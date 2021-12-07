@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipes/recipe.dart';
+import 'package:recipes/recipe_detail.dart';
 
 void main() {
   runApp(RecipeApp());
@@ -43,18 +44,51 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView.builder(
             itemCount: Recipe.samples.length,
             itemBuilder: (context, index) {
-              return Card(
-                child: Column(
-                  children: [
-                    Image(
-                      image: AssetImage(Recipe.samples[index].imageUrl),
-                    ),
-                    Text(Recipe.samples[index].label),
-                  ],
-                ),
+              return buildRecipeCard(
+                index: index,
               );
             }),
       )),
+    );
+  }
+}
+
+class buildRecipeCard extends StatelessWidget {
+  const buildRecipeCard({Key? key, required this.index}) : super(key: key);
+  final int index;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // 9
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return RecipeDetail(recipe: Recipe.samples[index]);
+            },
+          ),
+        );
+      },
+      child: Card(
+        elevation: 2.0,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Image(
+                image: AssetImage(Recipe.samples[index].imageUrl),
+              ),
+              SizedBox(
+                height: 14.0,
+              ),
+              Text(Recipe.samples[index].label),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
