@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:fooderlich/components/grocery_tile.dart';
 import 'package:fooderlich/models/grocery_item.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -86,24 +87,20 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
               );
 
               if (widget.isUpdating) {
-                // 2
                 widget.onUpdate(groceryItem);
               } else {
-                // 3
                 widget.onCreate(groceryItem);
               }
             },
           )
         ],
-        // 3
         elevation: 0.0,
-        // 4
         title: Text(
           'Grocery Item',
           style: GoogleFonts.lato(fontWeight: FontWeight.w600),
         ),
       ),
-      // 5
+
       body: Container(
         padding: const EdgeInsets.all(16),
         child: ListView(
@@ -117,22 +114,22 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
             const SizedBox(height: 10.0),
             buildQuantityField(),
             const SizedBox(height: 16.0),
-            // GroceryTile(
-            //   item: GroceryItem(
-            //     id: 'previewMode',
-            //     name: _name,
-            //     importance: _importance,
-            //     color: _currentColor,
-            //     quantity: _currentSliderValue,
-            //     date: DateTime(
-            //       _dueDate.year,
-            //       _dueDate.month,
-            //       _dueDate.day,
-            //       _timeOfDay.hour,
-            //       _timeOfDay.minute,
-            //     ),
-            //   ),
-            // ),
+            GroceryTile(
+              item: GroceryItem(
+                id: 'previewMode',
+                name: _name,
+                importance: _importance,
+                color: _currentColor,
+                quantity: _currentSliderValue,
+                date: DateTime(
+                  _dueDate.year,
+                  _dueDate.month,
+                  _dueDate.day,
+                  _timeOfDay.hour,
+                  _timeOfDay.minute,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -140,27 +137,19 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
   }
 
   Widget buildNameField() {
-    // 1
     return Column(
-      // 2
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 3
         Text(
           'Item Name',
           style: GoogleFonts.lato(fontSize: 28.0),
         ),
         // 4
         TextField(
-          // 5
           controller: _nameController,
-          // 6
           cursorColor: _currentColor,
-          // 7
           decoration: InputDecoration(
-            // 8
             hintText: 'E.g. Apples, Banana, 1 Bag of salt',
-            // 9
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
             ),
@@ -264,7 +253,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
 
                 // 8
                 setState(
-                      () {
+                  () {
                     if (selectedDate != null) {
                       _dueDate = selectedDate;
                     }
@@ -311,7 +300,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
             ),
           ],
         ),
-        Text('${_timeOfDay.format(context)}'),
+        Text(_timeOfDay.format(context)),
       ],
     );
   }
@@ -321,7 +310,6 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // 2
         Row(
           children: [
             Container(
@@ -333,24 +321,19 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
             Text('Color', style: GoogleFonts.lato(fontSize: 28)),
           ],
         ),
-        // 3
         TextButton(
           child: const Text('Select'),
           onPressed: () {
-            // 4
             showDialog(
               context: context,
               builder: (context) {
-                // 5
                 return AlertDialog(
                   content: BlockPicker(
                       pickerColor: Colors.white,
-                      // 6
                       onColorChanged: (color) {
                         setState(() => _currentColor = color);
                       }),
                   actions: [
-                    // 7
                     TextButton(
                       child: const Text('Save'),
                       onPressed: () {
@@ -368,11 +351,9 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
   }
 
   Widget buildQuantityField() {
-    // 1
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 2
         Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
@@ -390,19 +371,13 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
         ),
         // 3
         Slider(
-          // 4
           inactiveColor: _currentColor.withOpacity(0.5),
           activeColor: _currentColor,
-          // 5
           value: _currentSliderValue.toDouble(),
-          // 6
           min: 0.0,
           max: 100.0,
-          // 7
           divisions: 100,
-          // 8
           label: _currentSliderValue.toInt().toString(),
-          // 9
           onChanged: (double value) {
             setState(() {
               _currentSliderValue = value.toInt();
