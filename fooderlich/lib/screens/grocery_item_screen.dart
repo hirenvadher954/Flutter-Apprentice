@@ -264,7 +264,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
           ],
         ),
         // 9
-        Text('${DateFormat('yyyy-MM-dd').format(_dueDate)}'),
+        Text(DateFormat('yyyy-MM-dd').format(_dueDate)),
       ],
     );
   }
