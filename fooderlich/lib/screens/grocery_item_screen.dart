@@ -268,7 +268,6 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
       ],
     );
   }
-
   Widget buildTimeField(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
