@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../screens/screens.dart';
 
-// 1
+
 class AppRouter extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   @override
@@ -33,7 +33,7 @@ class AppRouter extends RouterDelegate
     super.dispose();
   }
 
-  // 6
+
   @override
   Widget build(BuildContext context) {
     return Navigator(
@@ -77,7 +77,7 @@ class AppRouter extends RouterDelegate
     return true;
   }
 
-  // 10
+
   @override
   Future<void> setNewRoutePath(configuration) async => null;
 }
