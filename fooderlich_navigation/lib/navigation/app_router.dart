@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../screens/screens.dart';
 
-
 class AppRouter extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
   @override
@@ -33,7 +32,6 @@ class AppRouter extends RouterDelegate
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Navigator(
@@ -41,25 +39,31 @@ class AppRouter extends RouterDelegate
       onPopPage: _handlePopPage,
       pages: [
         if (!appStateManager.isInitialized) SplashScreen.page(),
-
         if (appStateManager.isInitialized && !appStateManager.isLoggedIn)
           LoginScreen.page(),
         if (appStateManager.isLoggedIn && !appStateManager.isOnboardingComplete)
           OnboardingScreen.page(),
-
         if (appStateManager.isOnboardingComplete)
           Home.page(appStateManager.getSelectedTab),
-
         if (groceryManager.isCreatingNewItem)
+          GroceryItemScreen.page(onCreate: (item) {
+            groceryManager.addItem(item);
+          }, onUpdate: (item, index) {
+            // No update
+          }),
+        if (groceryManager.selectedIndex != -1)
           GroceryItemScreen.page(
-            onCreate: (item) {
-              groceryManager.addItem(item);
-            },
-            onUpdate: (item, index) {},
-          ),
-        // TODO: Select GroceryItemScreen
-        // TODO: Add Profile Screen
-        // TODO: Add WebView Screen
+              item: groceryManager.selectedGroceryItem,
+              index: groceryManager.selectedIndex,
+              onUpdate: (item, index) {
+                groceryManager.updateItem(item, index);
+              },
+              onCreate: (_) {
+                // No create
+              }),
+        if (profileManager.didSelectUser)
+          ProfileScreen.page(profileManager.getUser),
+        if (profileManager.didTapOnRaywenderlich) WebViewScreen.page()
       ],
     );
   }
@@ -68,15 +72,23 @@ class AppRouter extends RouterDelegate
     if (!route.didPop(result)) {
       return false;
     }
+
     if (route.settings.name == FooderlichPages.onboardingPath) {
       appStateManager.logout();
     }
-    // TODO: Handle state when user closes grocery item screen
-    // TODO: Handle state when user closes profile screen
-    // TODO: Handle state when user closes WebView screen
+    if (route.settings.name == FooderlichPages.groceryItemDetails) {
+      groceryManager.groceryItemTapped(-1);
+    }
+
+    if (route.settings.name == FooderlichPages.profilePath) {
+      profileManager.tapOnProfile(false);
+    }
+
+    if (route.settings.name == FooderlichPages.raywenderlich) {
+      profileManager.tapOnRaywenderlich(false);
+    }
     return true;
   }
-
 
   @override
   Future<void> setNewRoutePath(configuration) async => null;
