@@ -23,7 +23,6 @@ class WebViewScreenState extends State<WebViewScreen> {
   @override
   void initState() {
     super.initState();
-    // Enable hybrid composition.
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
@@ -31,10 +30,10 @@ class WebViewScreenState extends State<WebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('raywenderlich.com'),
+        title: const Text('Hiren Vadher'),
       ),
       body: const WebView(
-        initialUrl: 'https://www.raywenderlich.com/',
+        initialUrl: 'https://www.google.com/',
       ),
     );
   }
