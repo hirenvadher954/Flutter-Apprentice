@@ -9,7 +9,6 @@ class APIRecipeQuery {
       _$APIRecipeQueryFromJson(json);
 
   Map<String, dynamic> toJson() => _$APIRecipeQueryToJson(this);
-
   @JsonKey(name: 'q')
   String query;
   int from;
@@ -47,10 +46,10 @@ class APIRecipe {
   String label;
   String image;
   String url;
+  List<APIIngredients> ingredients;
   double calories;
   double totalWeight;
   double totalTime;
-  List<APIIngredients> ingredients;
 
   APIRecipe({
     required this.label,
@@ -66,6 +65,20 @@ class APIRecipe {
       _$APIRecipeFromJson(json);
 
   Map<String, dynamic> toJson() => _$APIRecipeToJson(this);
+}
+
+String getCalories(double? calories) {
+  if (calories == null) {
+    return '0 KCAL';
+  }
+  return calories.floor().toString() + ' KCAL';
+}
+
+String getWeight(double? weight) {
+  if (weight == null) {
+    return '0g';
+  }
+  return weight.floor().toString() + 'g';
 }
 
 @JsonSerializable()
@@ -92,19 +105,4 @@ List<Ingredient> convertIngredients(List<APIIngredients> apiIngredients) {
         .add(Ingredient(name: ingredient.name, weight: ingredient.weight));
   });
   return ingredients;
-}
-
-
-String getCalories(double? calories) {
-  if (calories == null) {
-    return '0 KCAL';
-  }
-  return calories.floor().toString() + ' KCAL';
-}
-
-String getWeight(double? weight) {
-  if (weight == null) {
-    return '0g';
-  }
-  return weight.floor().toString() + 'g';
 }

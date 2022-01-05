@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'colors.dart';
 import 'myrecipes/my_recipes_list.dart';
 import 'recipes/recipe_list.dart';
 import 'shopping/shopping_list.dart';
+import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -29,12 +29,9 @@ class _MainScreenState extends State<MainScreen> {
     getCurrentIndex();
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    saveCurrentIndex();
+  void saveCurrentIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt(prefSelectedIndexKey, _selectedIndex);
   }
 
   void getCurrentIndex() async {
@@ -49,9 +46,11 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  void saveCurrentIndex() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setInt(prefSelectedIndexKey, _selectedIndex);
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    saveCurrentIndex();
   }
 
   @override
